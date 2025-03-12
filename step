@@ -1,0 +1,36 @@
+Practical 4 DHCP
+
+
+en
+config t
+
+int f0/0
+ ip address 192.168.1.1 255.255.255.0
+ no shut
+exit
+
+int f1/0
+ ip address 192.168.2.1 255.255.255.0
+ no shut
+exit
+
+ip dhcp pool Net1
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+exit
+
+ip dhcp pool Net2
+ network 192.168.2.0 255.255.255.0
+ default-router 192.168.2.1
+exit
+
+exit
+wr
+
+
+
+
+
+
+Practical 5a Simple OSPF
+ 
