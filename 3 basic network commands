@@ -1,0 +1,7 @@
+nslookup
+netstat
+ipconfig
+hostname
+route
+pathping google.com
+arp -a
