@@ -294,3 +294,185 @@ PC> ping 192.168.4.2
 ---
 
 🚀 **Multi-Area OSPF is now successfully configured!** Let me know if you need any modifications. 🔥
+
+
+
+
+
+
+
+### **Step-by-Step Configuration for DNS, HTTP, Telnet, and FTP**  
+This follows your teacher’s format exactly.  
+
+---
+
+## **Network Setup**  
+| **Device**   | **IP Address** | **Default Gateway** | **Subnet Mask** | **DNS Server** |
+|-------------|--------------|----------------|---------------|--------------|
+| Router (Fa0/0) | 10.0.0.1  | —              | 255.0.0.0     | —            |
+| Server (Fa0)  | 10.0.0.2  | 10.0.0.1       | 255.0.0.0     | 10.0.0.2     |
+| PC0 (Fa0)     | 10.0.0.3  | 10.0.0.1       | 255.0.0.0     | 10.0.0.2     |
+| PC1 (Fa0)     | 10.0.0.4  | 10.0.0.1       | 255.0.0.0     | 10.0.0.2     |
+| PC2 (Fa0)     | 10.0.0.5  | 10.0.0.1       | 255.0.0.0     | 10.0.0.2     |
+
+---
+
+## **Step 1: Configure the Router (Telnet Access)**  
+1. **Enter privileged mode:**  
+   ```bash
+   Router>enable
+   ```
+2. **Enter global configuration mode:**  
+   ```bash
+   Router#configure terminal
+   ```
+3. **Set hostname:**  
+   ```bash
+   Router(config)#hostname smile
+   ```
+4. **Configure Telnet access:**  
+   ```bash
+   smile(config)#line vty 0 4
+   smile(config-line)#password cisco
+   smile(config-line)#login
+   ```
+5. **Set enable secret password:**  
+   ```bash
+   smile(config-line)#enable secret cisco
+   ```
+6. **Exit configuration mode:**  
+   ```bash
+   smile(config)#exit
+   ```
+
+---
+
+## **Step 2: Assign IP Addresses to the Router**  
+1. **Enter global configuration mode:**  
+   ```bash
+   smile#configure terminal
+   ```
+2. **Configure FastEthernet0/0 with the router’s IP address:**  
+   ```bash
+   smile(config)#interface FastEthernet0/0
+   smile(config-if)#ip address 10.0.0.1 255.0.0.0
+   smile(config-if)#no shutdown
+   smile(config-if)#exit
+   ```
+3. **Save configuration:**  
+   ```bash
+   smile#write memory
+   ```
+
+---
+
+## **Step 3: Configure the Server (DNS, HTTP, FTP)**  
+1. **Go to the Server in Packet Tracer**  
+2. **Open the “Desktop” tab → Click on "IP Configuration"**  
+   - Set IP Address: **10.0.0.2**  
+   - Subnet Mask: **255.0.0.0**  
+   - Default Gateway: **10.0.0.1**  
+   - DNS Server: **10.0.0.2**  
+
+### **Enable DNS on the Server**
+1. **Go to the "Services" tab → Select "DNS"**  
+2. **Turn on the DNS service**  
+3. **Add a DNS record:**  
+   - **Name:** example.com  
+   - **IP Address:** 10.0.0.2  
+
+### **Enable HTTP on the Server**  
+1. **Go to "Services" tab → Select "HTTP"**  
+2. **Turn on HTTP service**  
+
+### **Enable FTP on the Server**  
+1. **Go to "Services" tab → Select "FTP"**  
+2. **Turn on FTP service**  
+3. **Add a user for FTP:**  
+   - **Username:** admin  
+   - **Password:** cisco  
+
+---
+
+## **Step 4: Configure PCs**  
+1. **Go to each PC in Packet Tracer**  
+2. **Open "Desktop" → Click on "IP Configuration"**  
+   - **PC0:**  
+     - IP Address: **10.0.0.3**  
+     - Subnet Mask: **255.0.0.0**  
+     - Default Gateway: **10.0.0.1**  
+     - DNS Server: **10.0.0.2**  
+   - **PC1:**  
+     - IP Address: **10.0.0.4**  
+     - Subnet Mask: **255.0.0.0**  
+     - Default Gateway: **10.0.0.1**  
+     - DNS Server: **10.0.0.2**  
+   - **PC2:**  
+     - IP Address: **10.0.0.5**  
+     - Subnet Mask: **255.0.0.0**  
+     - Default Gateway: **10.0.0.1**  
+     - DNS Server: **10.0.0.2**  
+
+---
+
+## **Step 5: Verification Commands**  
+
+### **1. Verify Telnet from Any PC**
+- Open the **Command Prompt** on PC0, PC1, or PC2  
+- Type:  
+  ```bash
+  telnet 10.0.0.1
+  ```
+- Enter the password: `cisco`  
+- If successful, you should see:  
+  ```
+  smile>
+  ```
+- To enter privileged mode:  
+  ```bash
+  enable
+  ```
+  Enter **enable secret password**: `cisco`  
+
+---
+
+### **2. Verify DNS Resolution**
+- Open **Command Prompt** on any PC  
+- Type:  
+  ```bash
+  nslookup example.com
+  ```
+- It should resolve to **10.0.0.2**  
+
+---
+
+### **3. Verify HTTP (Web Server)**
+- Open the **web browser** on any PC  
+- Type:  
+  ```
+  http://10.0.0.2
+  ```
+- The web page should load  
+
+---
+
+### **4. Verify FTP Connection**
+- Open **Command Prompt** on any PC  
+- Type:  
+  ```bash
+  ftp 10.0.0.2
+  ```
+- Enter **Username:** `admin`  
+- Enter **Password:** `cisco`  
+- If successful, you will be in the FTP session  
+
+---
+
+## **Conclusion**
+This step-by-step guide follows your teacher’s method and ensures proper configuration of **DNS, HTTP, Telnet, and FTP** on your network. 🚀
+
+
+
+
+
+
