@@ -135,3 +135,162 @@ PC> ping 192.168.3.2
 ---
 
 That’s it! 🎉 You now have a **Single Area OSPF** network running in **Packet Tracer**. 🚀 Let me know if you need any modifications!
+
+
+
+
+
+
+
+### **Practical: Multi-Area OSPF Configuration in Packet Tracer**  
+Follow these steps to configure **Multi-Area OSPF** on the given network.
+
+---
+
+## **🛠 Step 1: Adding Devices**  
+Ensure the following devices are placed in Packet Tracer:  
+- **4 Routers** (Router0, Router1, Router2, Router3)  
+- **3 Switches** (Switch0, Switch1, Switch3)  
+- **8 PCs** (PC0 - PC7)  
+
+---
+
+## **🔗 Step 2: Connecting Devices**  
+Use the following connections:  
+
+🔹 **PCs to Switches**:  
+- **PC0 → Switch0 (Fa0)**  
+- **PC1 → Switch0 (Fa0)**  
+- **PC4 → Switch1 (Fa0)**  
+- **PC5 → Switch1 (Fa0)**  
+- **PC6 → Switch3 (Fa0)**  
+- **PC7 → Switch3 (Fa0)**  
+
+🔹 **Switches to Routers**:  
+- **Switch0 → Router0 (Fa0/1)**  
+- **Switch1 → Router2 (Fa0/1)**  
+- **Switch3 → Router3 (Fa0/1)**  
+
+🔹 **Router Connections (Serial Links - WAN)**  
+| **Router** | **Interface** | **IP Address** | **Connected to Router** | **Connected Interface** | **IP Address** |  
+|------------|--------------|---------------|-----------------|-----------------|--------------|  
+| Router0 | Se2/0 | 10.0.0.1 | Router1 | Se2/0 | 10.0.0.2 |  
+| Router0 | Se3/0 | 20.0.0.1 | Router3 | Se3/0 | 20.0.0.2 |  
+| Router1 | Se3/0 | 30.0.0.1 | Router3 | Se2/0 | 30.0.0.2 |  
+| Router2 | Se2/0 | 40.0.0.1 | Router1 | Se3/0 | 40.0.0.2 |  
+
+---
+
+## **⚙ Step 3: Router & PC Configuration Tables**  
+### **Router Interface Configurations**  
+
+#### **Router0**
+| **Interface** | **IP Address** | **Subnet Mask** |  
+|--------------|---------------|-----------------|  
+| Fa0/0 | 192.168.1.1 | 255.255.255.0 |  
+| Se2/0 | 10.0.0.1 | 255.0.0.0 |  
+| Se3/0 | 20.0.0.1 | 255.0.0.0 |  
+
+#### **Router1**
+| **Interface** | **IP Address** | **Subnet Mask** |  
+|--------------|---------------|-----------------|  
+| Fa1/1 | 192.168.2.1 | 255.255.255.0 |  
+| Se2/0 | 10.0.0.2 | 255.0.0.0 |  
+| Se3/0 | 30.0.0.1 | 255.0.0.0 |  
+
+#### **Router2**
+| **Interface** | **IP Address** | **Subnet Mask** |  
+|--------------|---------------|-----------------|  
+| Fa0/0 | 192.168.3.1 | 255.255.255.0 |  
+| Se2/0 | 40.0.0.1 | 255.0.0.0 |  
+
+#### **Router3**
+| **Interface** | **IP Address** | **Subnet Mask** |  
+|--------------|---------------|-----------------|  
+| Fa0/0 | 192.168.4.1 | 255.255.255.0 |  
+| Se2/0 | 30.0.0.2 | 255.0.0.0 |  
+| Se3/0 | 20.0.0.2 | 255.0.0.0 |  
+
+---
+
+## **🖥 Step 4: OSPF Configuration Commands**  
+### **Configuring OSPF on Each Router**  
+
+#### **Router0**
+```bash
+Router0(config)# router ospf 1
+Router0(config-router)# network 192.168.1.0 0.0.0.255 area 0
+Router0(config-router)# network 10.0.0.0 0.255.255.255 area 0
+Router0(config-router)# network 20.0.0.0 0.255.255.255 area 1
+Router0(config-router)# exit
+```
+
+#### **Router1**
+```bash
+Router1(config)# router ospf 1
+Router1(config-router)# network 192.168.2.0 0.0.0.255 area 1
+Router1(config-router)# network 10.0.0.0 0.255.255.255 area 0
+Router1(config-router)# network 30.0.0.0 0.255.255.255 area 1
+Router1(config-router)# exit
+```
+
+#### **Router2**
+```bash
+Router2(config)# router ospf 1
+Router2(config-router)# network 192.168.3.0 0.0.0.255 area 2
+Router2(config-router)# network 40.0.0.0 0.255.255.255 area 2
+Router2(config-router)# exit
+```
+
+#### **Router3**
+```bash
+Router3(config)# router ospf 1
+Router3(config-router)# network 192.168.4.0 0.0.0.255 area 2
+Router3(config-router)# network 30.0.0.0 0.255.255.255 area 1
+Router3(config-router)# network 20.0.0.0 0.255.255.255 area 1
+Router3(config-router)# exit
+```
+
+---
+
+## **💾 Step 5: Saving Configuration**  
+After configuring each router, save the configurations using:  
+```bash
+Router# write memory
+```
+
+---
+
+## **📌 Step 6: Verification Commands**  
+
+### **1️⃣ Check OSPF Neighbor Table**  
+```bash
+Router# show ip ospf neighbor
+```
+
+### **2️⃣ Check OSPF Routing Table**  
+```bash
+Router# show ip route ospf
+```
+
+### **3️⃣ Check OSPF Process Details**  
+```bash
+Router# show ip ospf
+```
+
+### **4️⃣ Verify Connectivity (Ping Between PCs)**  
+Example: From **PC0 to PC6**
+```bash
+PC> ping 192.168.4.2
+```
+
+---
+
+### ✅ **Final Checks:**
+✔ All PCs should be able to communicate across different areas.  
+✔ OSPF neighbor relationships should be established.  
+✔ The routing table should show OSPF routes.  
+
+---
+
+🚀 **Multi-Area OSPF is now successfully configured!** Let me know if you need any modifications. 🔥
